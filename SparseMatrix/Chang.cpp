@@ -111,44 +111,52 @@ void Chang::UnboxingShow() {
 Chang Chang::addmatr(Chang a)
 {
 	int el1 = 0, el2 = 0, cc = 0, JA1, JA2;
-	Chang Cho;
+	Chang Cho;//создаем матрицу которую ьудем возвращать
+	//инициализируем ее
 	int *jr = new int[this->nr];
 	Cho.JR = new int[this->nr];
-	Cho.nr = this->nr;
+	Cho.nr = this->nr;//размерность матрица nr*nc
 	Cho.nc = this->nc;
-	int c3 = 0;
+	int c3 = 0;//счетчик элементов в строке
+	jr[0] = 0;//нулевой всегда 0
+	//массив по количеству строк
 	for (int ia = 0; ia < this->nr; ia++)
 	{
-		jr[ia] = c3;
+		//вспомогательный массив JR будем формировать с 0
+		if(ia>0){ jr[ia] = jr[ia-1]+c3; }
 		c3 = 0;
-		int ct = 0;
-		int t1 = 0, t2 = 0;
-		bool first = true, second = true;
-		int c1 = abs(this->JR[ia + 1] - this->JR[ia]);
-		int c2 = abs(a.JR[ia + 1] - a.JR[ia]);
-		ct = (c1 <= c2) ? c2 : c1;
-		if (ia == 1) {
-			int a = 0;
-		}
+		int ct = 0;//
+		int t1 = 0, t2 = 0;//
+		bool first = true, second = true;//строку какой матрицы будем инкрементировать
+		int c1 = this->JR[ia + 1] - this->JR[ia];//количество элементов в строке первой матрицы
+		int c2 = a.JR[ia + 1] - a.JR[ia];//количество элементов в строке второй матрицы		
+		ct = (c1 <= c2) ? c2 : c1;//выбираем большее количество элементов
+		//проверка на нулевую строку???
+		if (c1 == 0 & c2 == 0) { continue; }
+		//??
 		while (((c1 <= c2) ? t2 : t1) != ct)
 		{
-			JA1 = this->AN[el1].JA;
-			JA2 = a.AN[el2].JA;
+			//el1 и el2 порядковый номер в строке первой и второй матрицы соответственно
+			JA1 = this->AN[el1].JA;//индекс по первой строке
+			JA2 = a.AN[el2].JA;//индекс по второй строке
 			if (t1 == c1) {
 				JA1 = this->nc;
 			}
 			if (t2 == c2) { JA2 = a.nc; }
+			//проверка если попадают две строки нулевые			
 			if (c1 == 0) { JA1 = this->nc + 1; }
 			if (c2 == 0) { JA2 = a.nc + 1; }
+			//проверяем какой порядковый номер больше
 			if (JA1 < JA2)
 			{
+				
 				Cho.AN[cc].data = this->AN[el1].data;
 				Cho.AN[cc].JA = JA1;
 				Cho.count++;
-				c3++;
+				c3++;//Инкриментируем счетчик 
 				second = false;
 				first = true;
-				cc++;
+				cc++;//счетчик в массиве AN
 			}
 			if (JA1 > JA2)
 			{
@@ -161,15 +169,16 @@ Chang Chang::addmatr(Chang a)
 				first = false;
 			}
 			if (JA1 == JA2)
-			{
-				Cho.AN[cc].data = this->AN[el1].data + a.AN[el2].data;
-				Cho.AN[cc].JA = JA1;
-				Cho.count++;
-				cc++;
-				c3++;
-				second = true;
-				first = true;
-			}
+				if (this->AN[el1].data + a.AN[el2].data != 0)
+				{
+					Cho.AN[cc].data = this->AN[el1].data + a.AN[el2].data;
+					Cho.AN[cc].JA = JA1;
+					Cho.count++;
+					cc++;
+					c3++;
+					second = true;
+					first = true;
+				}
 
 			if (t1 != c1 && first == true)
 			{

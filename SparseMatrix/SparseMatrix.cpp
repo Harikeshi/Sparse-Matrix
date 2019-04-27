@@ -80,33 +80,24 @@ int main() {
 
 	//Схема Чанга и Густавсона
 
-	int** mat0 = matrixInitRand(100, 100);
-	int** mat1 = matrixInitRand(100, 100);
+	int** mat0 = matrixInit(3,10,arr);
+	int** mat1 = matrixInit(3,10,arr);//тест array
 
+	Chang matrix0 = Chang(mat0, 3, 10);
+	Chang matrix1 = Chang(mat1, 3, 10);
 
+	matrix0.UnboxingShow();
+	cout << endl;
+	matrix0.BoxingShow();
+	matrix1.UnboxingShow();
+	cout << endl;
+	matrix1.BoxingShow();
 
+	Chang mat=matrix0.addmatr(matrix1);
+	mat.UnboxingShow();
+	cout << endl;
 
-	/*Chang matrix0 = Chang(mat0, 100, 100);
-	Chang matrix1 = Chang(mat1, 100, 100);*/
-	//-------------
-	clock_t start = clock();
-	Matrix matr0 = Matrix(mat0, 100, 100);
-	clock_t stop = clock();
-	cout << "Create matrix 1 = " << (stop - start) / 1000.0 << endl;
-	start = clock();
-	Matrix matr1 = Matrix(mat1, 100, 100);
-	stop = clock();
-	cout << "Create matrix 2 = " << (stop - start) / 1000.0 << endl;
-	start = clock();
-	Matrix mat2 = matr0.mulmatrix(matr1);
-	stop = clock();
-	cout << "Multipl = " << (stop - start) / 1000.0 << endl;
-	//mat2.UnboxingShow();
-	//---------------
-	//Chang mat=matrix0.addmatr(matrix1);
-	//mat.UnboxingShow();
-	//cout << endl;
-	//mat.BoxingShow();
+	mat.BoxingShow();
 
 	return 0;
 }
